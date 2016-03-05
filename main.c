@@ -17,8 +17,7 @@ int main(int argc, char *argv[]) {
     assert(status == ALLOC_OK);
     pool = mem_pool_open(POOL_SIZE, FIRST_FIT);
     assert(pool);
-
-    /*
+/*
      * Basic allocation scenario:
      *
      * 1. Pool starts out as a single gap.
@@ -26,33 +25,37 @@ int main(int argc, char *argv[]) {
      * 3. Allocate 1000. That will be underneath it. The rest is a gap.
      * 4. Deallocate the 100 allocation. Now gaps on both sides of 1000.
      * 4. Deallocate the 1000 allocation. Pool is again one single gap.
-     */
 
-
+*/
     print_pool(pool);
+
 
     // + alloc-0
     alloc_pt alloc0 = mem_new_alloc(pool, 100);
     assert(alloc0);
 
+    printf("+ alloc-0\n");
     print_pool(pool);
 
     // + alloc-1
     alloc_pt alloc1 = mem_new_alloc(pool, 1000);
     assert(alloc1);
 
+    printf("+ alloc-1\n");
     print_pool(pool);
 
     // - alloc-0
     status = mem_del_alloc(pool, alloc0);
     assert(status == ALLOC_OK);
 
+    printf("- alloc-0\n");
     print_pool(pool);
 
     // - alloc-1
     status = mem_del_alloc(pool, alloc1);
     assert(status == ALLOC_OK);
 
+    printf("- alloc-1\n");
     print_pool(pool);
 
 
@@ -62,6 +65,7 @@ int main(int argc, char *argv[]) {
 
 
     status = mem_pool_close(pool);
+    printf("memory pool closed\n");
     assert(status == ALLOC_OK);
     status = mem_free();
 
